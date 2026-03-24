@@ -4,6 +4,7 @@ public class Item {
     int test;
     int yup;
     int sajfbasfkjafs;
+    int dha;
 
     Item(int q, String n){
         quantity = q;

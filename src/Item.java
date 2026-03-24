@@ -5,6 +5,7 @@ public class Item {
     int yup;
     int sajfbasfkjafs;
     int dha;
+    int aasd;
 
     Item(int q, String n){
         quantity = q;

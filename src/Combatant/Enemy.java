@@ -3,9 +3,9 @@ package Combatant;
 public abstract class Enemy extends Combatant {
 	private EnemyActionStrategy actionStrategy;
 	
-	public Enemy(String name, int hp, int maxhp, int attack, int defense, int speed,
+	public Enemy(String name, int hp, int attack, int defense, int speed,
 			EnemyActionStrategy strategy) {
-		super(name, hp, maxhp, attack, defense, speed);
+		super(name, hp, attack, defense, speed);
 		this.actionStrategy = strategy;
 	}
 	

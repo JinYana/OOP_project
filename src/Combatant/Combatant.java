@@ -7,10 +7,10 @@ public abstract class Combatant {
     private int hp, maxhp, attack, defense, speed;
     private ArrayList<StatusEffect> statusEffects;
     
-    public Combatant(String name, int hp, int maxhp, int attack, int defense, int speed) {
+    public Combatant(String name, int hp, int attack, int defense, int speed) {
         this.name = name;
         this.hp = hp;
-        this.maxhp = maxhp;
+        this.maxhp = hp;
         this.attack = attack;
         this.defense = defense;
         this.speed = speed;

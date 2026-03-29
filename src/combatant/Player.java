@@ -1,15 +1,18 @@
-package Combatant;
+package combatant;
+
+import action.Action;
+import items.Item;
 
 import java.util.ArrayList;
 
 public abstract class Player extends Combatant {
 	private ArrayList<Item> inventory;
-	private int skillCooldown;
+	private int skillCooldown = 3;
 	
-	public Player(String name, int hp, int maxhp, int attack, int defense, int speed, int coolDown) {
-		super(name, hp, maxhp, attack, defense, speed);
+	public Player(int maxhp, int attack, int defense, int speed) {
+		super(maxhp, attack, defense, speed);
 		this.inventory = new ArrayList<>();
-		this.skillCooldown = coolDown;
+
 	}
 	
 	public void addItem(Item i) {

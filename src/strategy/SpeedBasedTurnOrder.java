@@ -17,7 +17,7 @@ public class SpeedBasedTurnOrder implements TurnOrderStrategy {
     public List<Combatant> determineTurnOrder(List<Combatant> combatants) {
         List<Combatant> ordered = new ArrayList<>(combatants);
         // Stable sort: equal-speed combatants keep their original relative order.
-        ordered.sort(Comparator.comparingInt(Combatant::getSpeed).reversed());
+        ordered.sort(Comparator.comparingInt(combatant::getSpeed).reversed());
         return ordered;
     }
 }

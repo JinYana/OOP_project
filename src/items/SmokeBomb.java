@@ -1,9 +1,13 @@
 package items;
 
+import combatant.Player;
+
 public class SmokeBomb extends Item {
 
-    SmokeBomb(String n) {
-        super(n);
+    static int quanity = 0;
+
+    SmokeBomb(String n, Player p) {
+        super(n, p);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package Combatant;
+package combatant;
 
 import java.util.ArrayList;
 
@@ -7,9 +7,8 @@ public abstract class Combatant {
     private int hp, maxhp, attack, defense, speed;
     private ArrayList<StatusEffect> statusEffects;
     
-    public Combatant(String name, int hp, int maxhp, int attack, int defense, int speed) {
-        this.name = name;
-        this.hp = hp;
+    public Combatant( int maxhp, int attack, int defense, int speed) {
+        this.hp = maxhp;
         this.maxhp = maxhp;
         this.attack = attack;
         this.defense = defense;
@@ -36,6 +35,10 @@ public abstract class Combatant {
         for (StatusEffect e: this.statusEffects) {
         	e.effect(this);
         }
+    }
+
+    public boolean isSmokeBombActive() {
+        return this.statusEffects.contains("Smoke Bomb");
     }
     
     public boolean isDefeated() {

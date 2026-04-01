@@ -32,9 +32,18 @@ public abstract class Combatant {
     } 
     
     public void tickStatus() {
-        for (StatusEffect e: this.statusEffects) {
-        	e.effect(this);
+        ArrayList<StatusEffect> expired = new ArrayList<>();
+
+        for (StatusEffect e : this.statusEffects) {
+            e.effect(this);
+            e.reduceDuration();
+
+            if (e.isExpired()) {
+                expired.add(e);
+            }
         }
+
+        statusEffects.removeAll(expired);
     }
 
     public boolean isSmokeBombActive() {
@@ -47,5 +56,9 @@ public abstract class Combatant {
     
     public String getLabel() {
         return this.name + " (HP: " + this.hp + ")";
+    }
+    
+    public int getAttack() {
+        return attack;
     }
 }

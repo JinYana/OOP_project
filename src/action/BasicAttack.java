@@ -1,9 +1,12 @@
 package action;
 
-public class BasicAttack {
+import combatant.Combatant;
 
-	public BasicAttack() {
-		// TODO Auto-generated constructor stub
-	}
+public class BasicAttack implements Action {
 
+    @Override
+    public void execute(Combatant actor, Combatant target) {
+        target.takeDamage(actor.getAttack());
+        System.out.println(actor.getLabel() + " uses Basic Attack on " + target.getLabel());
+    }
 }

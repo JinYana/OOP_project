@@ -1,6 +1,8 @@
 package combatant;
 
 import action.Action;
+import java.util.List;
+
 import strategy.EnemyActionStrategy;
 
 public abstract class Enemy extends Combatant {
@@ -12,8 +14,8 @@ public abstract class Enemy extends Combatant {
 		this.actionStrategy = strategy;
 	}
 	
-	public Action chooseAction(Combatant target) {
-		return actionStrategy.chooseAction(this, target);
+	public Action chooseAction(List<Combatant> targets) {
+		return actionStrategy.chooseAction(this, targets);
 	}
 	
 	@Override

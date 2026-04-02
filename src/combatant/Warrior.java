@@ -1,6 +1,7 @@
 package combatant;
 
 import action.Action;
+import action.ShieldBash;
 
 public class Warrior extends Player {
 
@@ -12,6 +13,6 @@ public class Warrior extends Player {
 
     @Override
     public Action getSpecialSkill() {
-        return null;
+        return new ShieldBash();
     }
 }

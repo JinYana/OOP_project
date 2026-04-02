@@ -2,6 +2,8 @@ package combatant;
 
 import java.util.ArrayList;
 
+import effect.StatusEffect;
+
 public abstract class Combatant {
     private String name;
     private int hp, maxhp, attack, defense, speed;

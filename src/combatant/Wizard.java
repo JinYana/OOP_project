@@ -1,16 +1,17 @@
 package combatant;
 
 import action.Action;
+import action.ArcaneBlast;
 
-public class Wizzard extends Player{
+public class Wizard extends Player{
 
-    public Wizzard() {
+    public Wizard() {
         //max hp, attack, defense, speed
         super(200, 50, 10, 20);
     }
 
     @Override
     public Action getSpecialSkill() {
-        return null;
+        return new ArcaneBlast();
     }
 }

@@ -2,7 +2,7 @@ package level;
 
 import combatant.Player;
 import combatant.Warrior;
-import combatant.Wizzard;
+import combatant.Wizard;
 
 import java.util.Objects;
 
@@ -14,7 +14,7 @@ public class GameSetup {
 
         }
         else{
-            return new Wizzard();
+            return new Wizard();
         }
 
 

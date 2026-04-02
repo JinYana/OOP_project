@@ -1,4 +1,6 @@
-package combatant;
+package effect;
+
+import combatant.Combatant;
 
 public class DefenseBoostEffect extends StatusEffect {
     private int boost;

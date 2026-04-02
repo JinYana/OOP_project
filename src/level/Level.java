@@ -1,5 +1,6 @@
 package level;
 
+import combatant.Combatant;
 import combatant.Enemy;
 import combatant.Goblin;
 import combatant.Wolf;
@@ -11,11 +12,11 @@ public class Level {
 
 
 
-    private List<Enemy> initialSpawn = new ArrayList<>();
-    private List<Enemy> backupSpawn = new ArrayList<>();
+    private List<Combatant> initialSpawn = new ArrayList<>();
+    private List<Combatant> backupSpawn = new ArrayList<>();
     private boolean backupTriggered;
 
-    Level(List<Enemy> is, List<Enemy>bs, boolean bt){
+    Level(List<Combatant> is, List<Combatant>bs, boolean bt){
         initialSpawn = is;
         backupSpawn = bs;
         backupTriggered = bt;
@@ -32,19 +33,20 @@ public class Level {
         }
     }
 
-    public List<Enemy> getBackupSpawn(){
+    public List<Combatant> getBackupSpawn(){
         backupTriggered = true;
         return backupSpawn;
     }
 
     public boolean isBackupTriggered(){
-        return backupTriggeredl;
+        return backupTriggered;
     }
 
 
-    public List<Enemy> getInitialSpawn(){
+    public List<Combatant> getInitialSpawn(){
         return initialSpawn;
     }
+
     public static Level easy(){
         List<Enemy> enemyList = new ArrayList<>();
 

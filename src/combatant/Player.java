@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public abstract class Player extends Combatant {
 	private ArrayList<Item> inventory;
-	private int skillCooldown = 3;
+
 	
 	public Player(int maxhp, int attack, int defense, int speed) {
 		super(maxhp, attack, defense, speed);
@@ -29,15 +29,15 @@ public abstract class Player extends Combatant {
 	}
 	
 	public void decrementCoolDown() {
-		this.skillCooldown --;
-		if (this.skillCooldown < 0) {
-			this.skillCooldown = 0;
+
+		if (this.getSkillCooldown() > 0) {
+			updateSkillCooldown();
 		}
 	}
 	
 	public abstract Action getSpecialSkill();
 	
 	public boolean isSkillAvailable() {
-		return this.skillCooldown <= 0;
+		return this.getSkillCooldown() <= 0;
 	}
 }

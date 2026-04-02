@@ -2,7 +2,12 @@ package action;
 
 import combatant.Combatant;
 
-public class Defend implements Action {
+public class Defend extends Action {
+
+    Defend(){
+        requiresTarget = false;
+        aoe = false;
+    }
 
     @Override
     public void execute(Combatant actor, Combatant target) {

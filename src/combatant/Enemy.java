@@ -12,9 +12,10 @@ public abstract class Enemy extends Combatant {
 			EnemyActionStrategy strategy) {
 		super(maxhp, attack, defense, speed);
 		this.actionStrategy = strategy;
+
 	}
 	
-	public Action chooseAction(List<Combatant> targets) {
+	public Action chooseAction(Player targets) {
 		return actionStrategy.chooseAction(this, targets);
 	}
 	

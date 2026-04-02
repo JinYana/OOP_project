@@ -2,11 +2,11 @@ package engine;
 
 
 
+import action.Action;
 import combatant.Combatant;
-import combatant.Enemy;
-import combatant.Player;
 import level.Level;
 import strategy.TurnOrderStrategy;
+import ui.GameCLI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,17 +15,17 @@ import java.util.stream.Collectors;
 
 public class BattleEngine {
 
-    private final Player player;
+    private final Combatant player;
     private final Level level;
     private final TurnOrderStrategy turnOrderStrategy;
     private final GameCLI ui;
 
-    private final List<Enemy> livingEnemies = new ArrayList<>();
+    private final List<Combatant> livingEnemies = new ArrayList<>();
     private int roundNumber = 0;
     private boolean battleOver = false;
     private boolean playerWon  = false;
 
-    public BattleEngine(Player player, Level level,
+    public BattleEngine(Combatant player, Level level,
                         TurnOrderStrategy turnOrderStrategy, GameCLI ui) {
         this.player            = player;
         this.level             = level;
@@ -68,7 +68,7 @@ public class BattleEngine {
         if (battleOver) return;
 
         // Backup spawn check at end of round
-        checkBackupSpawn();
+        spawnBackup();
         checkBattleEnd();
 
         ui.displayRoundSummary(roundNumber, player, livingEnemies);
@@ -76,7 +76,7 @@ public class BattleEngine {
 
     private void processTurn(Combatant combatant) {
         // This decrements durations and removes expired effects.
-        combatant.tickStatusEffects();
+        combatant.tickStatus();
 
         // If still stunned after tick, skip turn
         if (combatant.isStunned()) {
@@ -94,45 +94,40 @@ public class BattleEngine {
 
         // Decrement special skill cooldown at end of each player turn
         if (combatant instanceof Player p) {
-            p.decrementCooldown();
+            p.decrementCoolDown();
         }
     }
 
     // Player turn
-    private void processPlayerTurn(Player player) {
+    private void processPlayerTurn(Combatant player) {
         Action action = ui.promptPlayerAction(player, getLivingEnemies(), this);
 
         Combatant target = resolveTarget(action, player);
-        action.execute(player, target, this);
-
-        // Trigger cooldown only for direct special skill use (not PowerStone)
-        if (action instanceof ShieldBash || action instanceof ArcaneBlast) {
-            player.triggerSpecialSkillCooldown();
-        }
+        action.execute(player, target);
 
         removeDefeated();
     }
 
-    /**
-     * Determines the appropriate target for each action type.
-     * AoE actions (ArcaneBlast) pass a placeholder — the action iterates all enemies itself.
-     */
-    private Combatant resolveTarget(Action action, Player player) {
-        if (action instanceof BasicAttack || action instanceof ShieldBash) {
+
+    private Combatant resolveTarget(Action action, Combatant player) {
+
+        if(action.isRequiresTarget()){
             return ui.promptTargetSelection(getLivingEnemies());
-        } else if (action instanceof Defend || action instanceof ItemAction) {
-            return player;  // self-targeted
-        } else if (action instanceof ArcaneBlast) {
-            return livingEnemies.isEmpty() ? player : livingEnemies.get(0); // AoE, target unused
         }
-        return player;
+        else if(action.isAOE()){
+            return livingEnemies.isEmpty() ? player : livingEnemies.get(0);
+        }
+        else{
+            return player;
+        }
+
     }
 
     // Enemy turn
-    private void processEnemyTurn(Enemy enemy) {
+    private void processEnemyTurn(Combatant enemy) {
 
         Action action = enemy.chooseAction(player);
-        action.execute(enemy, player, this);
+        action.execute(enemy, player);
 
         if (player.isDefeated()) {
             battleOver = true;
@@ -142,9 +137,9 @@ public class BattleEngine {
 
 
     // Backup spawn & win/loss
-    private void checkBackupSpawn() {
-        List<Enemy> backup = level.checkAndGetBackupSpawn(livingEnemies);
-        if (!backup.isEmpty()) {
+    private void spawnBackup() {
+        if (level.hasBackup()) {
+            List<Combatant> backup = level.getBackupSpawn();
             livingEnemies.addAll(backup);
             ui.displayBackupSpawn(backup);
         }
@@ -163,10 +158,10 @@ public class BattleEngine {
     }
 
     private void removeDefeated() {
-        List<Enemy> defeated = livingEnemies.stream()
+        List<Combatant> defeated = livingEnemies.stream()
                 .filter(Combatant::isDefeated)
                 .collect(Collectors.toList());
-        for (Enemy e : defeated) {
+        for (Combatant e : defeated) {
             ui.displayEliminated(e);
         }
         livingEnemies.removeAll(defeated);

@@ -1,6 +1,6 @@
 package strategy;
 
-import domain.combatant.Combatant;
+import combatant.Combatant;
 import java.util.List;
 
 /**

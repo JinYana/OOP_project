@@ -1,6 +1,6 @@
 package strategy;
 
-import domain.combatant.Combatant;
+import combatant.Combatant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -17,7 +17,7 @@ public class SpeedBasedTurnOrder implements TurnOrderStrategy {
     public List<Combatant> determineTurnOrder(List<Combatant> combatants) {
         List<Combatant> ordered = new ArrayList<>(combatants);
         // Stable sort: equal-speed combatants keep their original relative order.
-        ordered.sort(Comparator.comparingInt(combatant::getSpeed).reversed());
+        ordered.sort(Comparator.comparingInt(Combatant::getSpeed).reversed());
         return ordered;
     }
 }

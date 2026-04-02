@@ -81,7 +81,7 @@ public class GameCLI {
 	
 	
 	
-	public void displayBattleStart(Player player, List<Enemy> enemies, Level level) {
+	public void displayBattleStart(Combatant player, List<Combatant> enemies, Level level) {
         System.out.println();
         System.out.println("══════════════════════════════════════════════════");
         System.out.println("  BATTLE START — " + level);
@@ -100,7 +100,7 @@ public class GameCLI {
         System.out.println("└─────────────────────────────────────────────────");
     }
 	
-	public void displayRoundSummary(int roundNumber, Player player, List<Enemy> livingEnemies) {
+	public void displayRoundSummary(int roundNumber, Combatant player, List<Combatant> livingEnemies) {
         System.out.println();
         System.out.print("  End of Round " + roundNumber + ": "
                 + player.getName() + " HP: " + player.getHp() + "/" + player.getMaxHp());
@@ -129,10 +129,10 @@ public class GameCLI {
         System.out.println("  " + combatant.getName() + " ELIMINATED!");
     }
 
-    public void displayBackupSpawn(List<Enemy> backupEnemies) {
+    public void displayBackupSpawn(List<Combatant> backupEnemies) {
         System.out.println();
         System.out.println("  !! All initial enemies defeated — BACKUP SPAWN !!");
-        for (Enemy e : backupEnemies) {
+        for (Combatant e : backupEnemies) {
             System.out.println("     + " + e);
         }
     }
@@ -142,7 +142,7 @@ public class GameCLI {
     }
     
     
-    public Action promptPlayerAction(Player player, List<Combatant> enemies, BattleEngine engine) {
+    public Action promptPlayerAction(Combatant player, List<Combatant> enemies, BattleEngine engine) {
         System.out.println();
         System.out.println("  " + player.getName() + "'s turn — choose an action:");
         System.out.println("    [1] Basic Attack");
@@ -188,7 +188,7 @@ public class GameCLI {
         };
     }
     
-    private Item promptItemSelection(Player player) {
+    private Item promptItemSelection(Combatant player) {
         List<Item> inventory = player.getInventory();
         System.out.println("  Select item:");
         for (int i = 0; i < inventory.size(); i++) {
@@ -209,7 +209,7 @@ public class GameCLI {
         return targets.get(choice);
     }
     
-    public void displayBattleEnd(boolean playerWon, Player player, List<Enemy> remainingEnemies, int totalRounds) {
+    public void displayBattleEnd(boolean playerWon, Combatant player, List<Combatant remainingEnemies, int totalRounds) {
     	System.out.println();
         System.out.println("══════════════════════════════════════════════════");
         if (playerWon) {
@@ -239,7 +239,7 @@ public class GameCLI {
     
     //Helper
     
-    private String formatItems(Player player) {
+    private String formatItems(Combatant player) {
         List<Item> items = player.getInventory();
         if (items.isEmpty()) return "(none)";
         StringBuilder sb = new StringBuilder();

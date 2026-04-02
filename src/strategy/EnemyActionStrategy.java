@@ -1,7 +1,7 @@
 package strategy;
 
-import domain.action.Action;
-import domain.combatant.Combatant;
+import action.Action;
+import combatant.Combatant;
 import java.util.List;
 
 /**
@@ -19,5 +19,5 @@ public interface EnemyActionStrategy {
      * @param targets the living player combatants available to attack
      * @return the chosen Action
      */
-    Action chooseAction(Combatant enemy, List<Combatant> targets);
+    Action chooseAction(Combatant enemy, Combatant targets);
 }

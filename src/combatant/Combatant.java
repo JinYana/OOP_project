@@ -3,11 +3,13 @@ package combatant;
 import java.util.ArrayList;
 
 import effect.StatusEffect;
+import effect.StunEffect;
 
 public abstract class Combatant {
     private String name;
     private int hp, maxhp, attack, defense, speed;
     private ArrayList<StatusEffect> statusEffects;
+    private int skillCooldown = 3;
     
     public Combatant( int maxhp, int attack, int defense, int speed) {
         this.hp = maxhp;
@@ -17,7 +19,9 @@ public abstract class Combatant {
         this.speed = speed;
         this.statusEffects = new ArrayList<>();
     }
-    
+
+    public abstract void decrementCoolDown();
+
     public void takeDamage(int damage) {
 	    damage = Math.max(0, damage - this.defense);
 	    this.hp = Math.max(0, this.hp - damage);
@@ -62,5 +66,25 @@ public abstract class Combatant {
     
     public int getAttack() {
         return attack;
+    }
+
+    public int getSkillCooldown() {
+        return skillCooldown;
+    }
+
+    public void updateSkillCooldown(){
+        skillCooldown --;
+    }
+
+    public boolean isStunned() {
+        for(StatusEffect s : statusEffects){
+            if(s instanceof StunEffect){
+                return true;
+            }
+        }
+
+        return false;
+
+
     }
 }

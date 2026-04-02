@@ -1,16 +1,17 @@
-package Combatant;
+package combatant;
 
 import java.util.ArrayList;
+
+import effect.StatusEffect;
 
 public abstract class Combatant {
     private String name;
     private int hp, maxhp, attack, defense, speed;
     private ArrayList<StatusEffect> statusEffects;
     
-    public Combatant(String name, int hp, int attack, int defense, int speed) {
-        this.name = name;
-        this.hp = hp;
-        this.maxhp = hp;
+    public Combatant( int maxhp, int attack, int defense, int speed) {
+        this.hp = maxhp;
+        this.maxhp = maxhp;
         this.attack = attack;
         this.defense = defense;
         this.speed = speed;
@@ -33,9 +34,22 @@ public abstract class Combatant {
     } 
     
     public void tickStatus() {
-        for (StatusEffect e: this.statusEffects) {
-        	e.effect(this);
+        ArrayList<StatusEffect> expired = new ArrayList<>();
+
+        for (StatusEffect e : this.statusEffects) {
+            e.effect(this);
+            e.reduceDuration();
+
+            if (e.isExpired()) {
+                expired.add(e);
+            }
         }
+
+        statusEffects.removeAll(expired);
+    }
+
+    public boolean isSmokeBombActive() {
+        return this.statusEffects.contains("Smoke Bomb");
     }
     
     public boolean isDefeated() {
@@ -44,5 +58,9 @@ public abstract class Combatant {
     
     public String getLabel() {
         return this.name + " (HP: " + this.hp + ")";
+    }
+    
+    public int getAttack() {
+        return attack;
     }
 }

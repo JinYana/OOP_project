@@ -1,30 +1,18 @@
 package engine;
 
-import domain.action.Action;
-import domain.action.ArcaneBlast;
-import domain.action.BasicAttack;
-import domain.action.Defend;
-import domain.action.ItemAction;
-import domain.action.ShieldBash;
-import domain.combatant.Combatant;
-import domain.combatant.Enemy;
-import domain.combatant.Player;
-import domain.level.Level;
+
+
+import combatant.Combatant;
+import combatant.Enemy;
+import combatant.Player;
+import level.Level;
 import strategy.TurnOrderStrategy;
-import ui.GameCLI;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Orchestrates all battle rounds: turn order, action resolution,
- * status effect ticking, win/loss detection, and backup spawning.
- *
- * DIP: depends on TurnOrderStrategy abstraction, not SpeedBasedTurnOrder directly.
- * OCP: new Action or StatusEffect types plug in without modifying this class.
- * SRP: battle flow management only — no UI, no stats, no spawn config.
- */
+
 public class BattleEngine {
 
     private final Player player;
@@ -46,9 +34,6 @@ public class BattleEngine {
         livingEnemies.addAll(level.getInitialSpawn());
     }
 
-    // =========================================================================
-    // Public API
-    // =========================================================================
 
     /** Runs the battle to completion. Returns true if the player wins. */
     public boolean run() {
@@ -63,10 +48,8 @@ public class BattleEngine {
         return playerWon;
     }
 
-    // =========================================================================
-    // Round logic
-    // =========================================================================
 
+    // Round logic
     private void runRound() {
         ui.displayRoundHeader(roundNumber);
 
@@ -92,7 +75,6 @@ public class BattleEngine {
     }
 
     private void processTurn(Combatant combatant) {
-        // Tick status effects at the start of this combatant's turn slot.
         // This decrements durations and removes expired effects.
         combatant.tickStatusEffects();
 
@@ -116,10 +98,7 @@ public class BattleEngine {
         }
     }
 
-    // -------------------------------------------------------------------------
     // Player turn
-    // -------------------------------------------------------------------------
-
     private void processPlayerTurn(Player player) {
         Action action = ui.promptPlayerAction(player, getLivingEnemies(), this);
 
@@ -149,13 +128,10 @@ public class BattleEngine {
         return player;
     }
 
-    // -------------------------------------------------------------------------
     // Enemy turn
-    // -------------------------------------------------------------------------
-
     private void processEnemyTurn(Enemy enemy) {
-        List<Combatant> targets = List.of(player);
-        Action action = enemy.chooseAction(targets);
+
+        Action action = enemy.chooseAction(player);
         action.execute(enemy, player, this);
 
         if (player.isDefeated()) {
@@ -164,10 +140,8 @@ public class BattleEngine {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Backup spawn & win/loss
-    // -------------------------------------------------------------------------
 
+    // Backup spawn & win/loss
     private void checkBackupSpawn() {
         List<Enemy> backup = level.checkAndGetBackupSpawn(livingEnemies);
         if (!backup.isEmpty()) {
@@ -210,32 +184,7 @@ public class BattleEngine {
         return new ArrayList<>(livingEnemies);
     }
 
-    /**
-     * Returns true if a Smoke Bomb effect is currently active on the given combatant.
-     * Called by BasicAttack before resolving enemy damage.
-     */
-    public boolean isSmokeBombActive(Combatant combatant) {
-        return combatant.getActiveEffectNames().contains("Smoke Bomb");
-    }
 
-    /**
-     * Executes the player's special skill via PowerStone WITHOUT triggering cooldown.
-     * UI prompts for a target if needed.
-     */
-    public void executePowerStoneSkill(Player player) {
-        Action skill = player.getSpecialSkill();
-
-        Combatant target;
-        if (skill instanceof ArcaneBlast) {
-            target = livingEnemies.isEmpty() ? player : livingEnemies.get(0);
-        } else {
-            target = ui.promptTargetSelection(getLivingEnemies());
-        }
-
-        skill.execute(player, target, this);
-        // Cooldown is intentionally NOT triggered here — PowerStone spec.
-        removeDefeated();
-    }
 
     /** Routes all battle log messages through the UI layer. */
     public void log(String message) {

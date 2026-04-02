@@ -1,17 +1,27 @@
 package level;
 
 import combatant.Player;
+import combatant.Warrior;
+import combatant.Wizard;
+
+import java.util.Objects;
 
 public class GameSetup {
 
-    public static Player buildPlayer(){
+    public static Player buildPlayer(String choice){
+        if(Objects.equals(choice, "warrior")){
+            return new Warrior();
 
-        return new Player();
+        }
+        else{
+            return new Wizard();
+        }
+
+
     }
 
-// NEED OTHER CLASSES TO BE IMPLEMENTED FIRST
-//    public static Player buildLevel(){
-//
-//        return new Level();
-//    }
+
+    public static Level buildLevel(){
+            return new Level();
+    }
 }

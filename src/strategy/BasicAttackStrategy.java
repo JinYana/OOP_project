@@ -14,7 +14,7 @@ public class BasicAttackStrategy implements EnemyActionStrategy {
 
 
     @Override
-    public Action chooseAction(Combatant enemy, Combatant targets) {
+    public Action chooseAction() {
         return new BasicAttack();
     }
 }

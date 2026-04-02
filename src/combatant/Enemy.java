@@ -3,20 +3,28 @@ package combatant;
 import action.Action;
 import java.util.List;
 
+import action.BasicAttack;
+import engine.BattleEngine;
+import strategy.BasicAttackStrategy;
 import strategy.EnemyActionStrategy;
+import ui.GameCLI;
 
 public abstract class Enemy extends Combatant {
 	private EnemyActionStrategy actionStrategy;
-	
-	public Enemy(int maxhp, int attack, int defense, int speed,
+
+	public Enemy(String name, int maxhp, int attack, int defense, int speed,
 			EnemyActionStrategy strategy) {
-		super(maxhp, attack, defense, speed);
-		this.actionStrategy = strategy;
+		super(name, maxhp, attack, defense, speed);
+		actionStrategy = strategy;
+		isPlayer = false;
 
 	}
-	
-	public Action chooseAction(Player targets) {
-		return actionStrategy.chooseAction(this, targets);
+
+
+
+
+	public Action chooseAction(GameCLI ui, List<Combatant> enemies, Combatant targets) {
+		return actionStrategy.chooseAction();
 	}
 	
 	@Override

@@ -1,21 +1,21 @@
 package items;
 
+import combatant.Combatant;
 import combatant.Player;
 
 abstract public class Item {
 
-    private String name;
-    protected Player player;
+    protected String name;
 
-    Item(String n, Player p){
-        name = n;
-        player = p;
-    }
+
+
+
+
 
     public String getName(){
         return name;
     }
 
-    abstract public void use();
+    abstract public void use(Combatant player);
 
 }

@@ -4,7 +4,8 @@ import combatant.Combatant;
 
 public class Defend extends Action {
 
-    Defend(){
+    public Defend(){
+        super("Defend");
         requiresTarget = false;
         aoe = false;
     }

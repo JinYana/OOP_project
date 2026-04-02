@@ -3,8 +3,11 @@ package action;
 import combatant.Combatant;
 
 public class ShieldBash extends Action {
+    String name;
 
-    ShieldBash(){
+    public ShieldBash(){
+        super("Shield Bash");
+        name = "Shield Bash";
         requiresTarget = true;
         aoe = false;
     }

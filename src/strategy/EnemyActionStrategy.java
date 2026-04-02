@@ -19,5 +19,5 @@ public interface EnemyActionStrategy {
      * @param targets the living player combatants available to attack
      * @return the chosen Action
      */
-    Action chooseAction(Combatant enemy, Combatant targets);
+    Action chooseAction();
 }

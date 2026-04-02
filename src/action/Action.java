@@ -5,6 +5,12 @@ import combatant.Combatant;
 public abstract class Action {
     protected boolean requiresTarget;
     protected boolean aoe;
+    protected String name;
+
+    public Action(String name){
+        this.name = name;
+    }
+
     abstract public void execute(Combatant actor, Combatant target);
 
     public boolean isRequiresTarget(){
@@ -13,6 +19,10 @@ public abstract class Action {
 
     public boolean isAOE(){
         return aoe;
+    }
+
+    public String getName(){
+        return name;
     }
 
 

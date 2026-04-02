@@ -3,10 +3,13 @@ package action;
 import combatant.Combatant;
 
 public class ArcaneBlast extends Action {
+    String name;
 
-    ArcaneBlast(){
+    public ArcaneBlast(){
+        super("Arcane Blast");
         requiresTarget = true;
         aoe = true;
+
     }
 
     @Override

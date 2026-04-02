@@ -4,7 +4,8 @@ import combatant.Combatant;
 
 public class BasicAttack extends Action {
 
-    BasicAttack(){
+    public BasicAttack(){
+        super("Basic Attack");
         requiresTarget = true;
         aoe = false;
     }

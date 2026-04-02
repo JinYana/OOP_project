@@ -86,21 +86,22 @@ public class BattleEngine {
 
         if (combatant.isDefeated()) return;
 
-        if (combatant instanceof Player p) {
-            processPlayerTurn(p);
-        } else if (combatant instanceof Enemy e) {
-            processEnemyTurn(e);
+        if (combatant.isPlayer()) {
+            processPlayerTurn(combatant);
+            // Decrement special skill cooldown at end of each player turn
+            combatant.decrementCoolDown();
+        } else{
+            processEnemyTurn(combatant);
         }
 
-        // Decrement special skill cooldown at end of each player turn
-        if (combatant instanceof Player p) {
-            p.decrementCoolDown();
-        }
+
+
     }
 
     // Player turn
     private void processPlayerTurn(Combatant player) {
-        Action action = ui.promptPlayerAction(player, getLivingEnemies(), this);
+
+        Action action = player.chooseAction(ui, livingEnemies,  player);
 
         Combatant target = resolveTarget(action, player);
         action.execute(player, target);
@@ -112,7 +113,7 @@ public class BattleEngine {
     private Combatant resolveTarget(Action action, Combatant player) {
 
         if(action.isRequiresTarget()){
-            return ui.promptTargetSelection(getLivingEnemies());
+            return ui.promptTargetSelection(livingEnemies);
         }
         else if(action.isAOE()){
             return livingEnemies.isEmpty() ? player : livingEnemies.get(0);
@@ -126,7 +127,7 @@ public class BattleEngine {
     // Enemy turn
     private void processEnemyTurn(Combatant enemy) {
 
-        Action action = enemy.chooseAction(player);
+        Action action = enemy.chooseAction(ui, livingEnemies,  player);
         action.execute(enemy, player);
 
         if (player.isDefeated()) {
@@ -171,27 +172,12 @@ public class BattleEngine {
     // Public helpers called by Action / Item classes
     // =========================================================================
 
-    /**
-     * Returns a snapshot of currently living enemies.
-     * Used by ArcaneBlast for AoE resolution.
-     */
-    public List<Combatant> getLivingEnemies() {
-        return new ArrayList<>(livingEnemies);
-    }
-
-
 
     /** Routes all battle log messages through the UI layer. */
     public void log(String message) {
         ui.displayLog(message);
     }
 
-    // =========================================================================
-    // Accessors
-    // =========================================================================
-
-    public int getRoundNumber() { return roundNumber; }
-    public Player getPlayer()   { return player; }
 
     private List<Combatant> buildCombatantList() {
         List<Combatant> all = new ArrayList<>();

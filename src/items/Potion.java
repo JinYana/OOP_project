@@ -1,5 +1,6 @@
 package items;
 
+import combatant.Combatant;
 import combatant.Player;
 
 public class Potion extends Item {
@@ -7,12 +8,13 @@ public class Potion extends Item {
     int heal = 100;
     static int quanity = 0;
 
-    Potion(String n, Player p) {
-        super(n, p);
+    public Potion() {
+
+        name = "Potion";
     }
 
     @Override
-    public void use() {
+    public void use(Combatant player) {
         player.heal(heal);
         quanity --;
 

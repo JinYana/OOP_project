@@ -6,6 +6,7 @@ public class StunEffect extends StatusEffect {
 
     public StunEffect(int duration) {
         super(duration);
+        name = "Stun";
     }
 
     @Override

@@ -2,6 +2,28 @@ package action;
 
 import combatant.Combatant;
 
-public interface Action {
-    void execute(Combatant actor, Combatant target);
+public abstract class Action {
+    protected boolean requiresTarget;
+    protected boolean aoe;
+    protected String name;
+
+    public Action(String name){
+        this.name = name;
+    }
+
+    abstract public void execute(Combatant actor, Combatant target);
+
+    public boolean isRequiresTarget(){
+        return requiresTarget;
+    }
+
+    public boolean isAOE(){
+        return aoe;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+
 }

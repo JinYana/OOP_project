@@ -1,8 +1,8 @@
 package strategy;
 
-import domain.action.Action;
-import domain.action.BasicAttack;
-import domain.combatant.Combatant;
+import action.Action;
+import action.BasicAttack;
+import combatant.Combatant;
 import java.util.List;
 
 /**
@@ -12,9 +12,9 @@ import java.util.List;
  */
 public class BasicAttackStrategy implements EnemyActionStrategy {
 
+
     @Override
-    public Action chooseAction(Combatant enemy, List<Combatant> targets) {
-        // Spec: enemies always perform BasicAttack. Target selection: first living target.
+    public Action chooseAction() {
         return new BasicAttack();
     }
 }

@@ -2,13 +2,9 @@ package ui;
 
 import action.*;
 import combatant.Combatant;
-import combatant.Enemy;
-import combatant.Player;
 import items.Item;
 import level.GameSetup;
 import level.Level;
-import engine.BattleEngine;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -61,8 +57,8 @@ public class GameCLI {
         int choice = readInt(1, 3);
         return switch (choice) {
             case 1  -> GameSetup.ItemChoice.POTION;
-            case 2  -> GameSetup.ItemChoice.POWER_STONE;
-            default -> GameSetup.ItemChoice.SMOKE_BOMB;
+            case 2  -> GameSetup.ItemChoice.POWERSTONE;
+            default -> GameSetup.ItemChoice.SMOKEBOMB;
         };
     }
 	
@@ -81,15 +77,15 @@ public class GameCLI {
 	
 	
 	
-	public void displayBattleStart(Player player, List<Enemy> enemies, Level level) {
+	public void displayBattleStart(Combatant player, List<Combatant> enemies, Level level) {
         System.out.println();
         System.out.println("══════════════════════════════════════════════════");
-        System.out.println("  BATTLE START — " + level);
+        System.out.println("  BATTLE START — " + level.getName());
         System.out.println("══════════════════════════════════════════════════");
-        System.out.println("  " + player);
+        System.out.println("  " + player.getName());
         System.out.println("  Items: " + formatItems(player));
         System.out.println("  Enemies:");
-        for (Enemy e : enemies) System.out.println("    • " + e);
+        for (Combatant e : enemies) System.out.println("    • " + e.getName());
         System.out.println("══════════════════════════════════════════════════");
     }
 	
@@ -100,10 +96,10 @@ public class GameCLI {
         System.out.println("└─────────────────────────────────────────────────");
     }
 	
-	public void displayRoundSummary(int roundNumber, Player player, List<Enemy> livingEnemies) {
+	public void displayRoundSummary(int roundNumber, Combatant player, List<Combatant> livingEnemies) {
         System.out.println();
         System.out.print("  End of Round " + roundNumber + ": "
-                + player.getName() + " HP: " + player.getHp() + "/" + player.getMaxHp());
+                + player.getName() + " HP: " + player.getHp() + "/" + player.getMaxhp());
         for (Combatant e : livingEnemies) {
             System.out.print(" | " + e.getName() + " HP: " + e.getHp());
             if (e.isStunned()) System.out.print(" [STUNNED]");
@@ -111,14 +107,14 @@ public class GameCLI {
         System.out.println();
 
         // Active effects on player
-        List<String> effects = player.getActiveEffectNames();
+        List<String> effects = player.getStatusEffects();
         if (!effects.isEmpty()) {
             System.out.println("  Active effects on " + player.getName() + ": " + effects);
         }
 
         // Items and cooldown
         System.out.println("  Items: " + formatItems(player)
-                + " | Skill CD: " + player.getSpecialSkillCooldown() + " rounds");
+                + " | Skill CD: " + player.getSkillCooldown() + " rounds");
     }
 	
 	public void displayStunSkip(Combatant combatant) {
@@ -129,10 +125,10 @@ public class GameCLI {
         System.out.println("  " + combatant.getName() + " ELIMINATED!");
     }
 
-    public void displayBackupSpawn(List<Enemy> backupEnemies) {
+    public void displayBackupSpawn(List<Combatant> backupEnemies) {
         System.out.println();
         System.out.println("  !! All initial enemies defeated — BACKUP SPAWN !!");
-        for (Enemy e : backupEnemies) {
+        for (Combatant e : backupEnemies) {
             System.out.println("     + " + e);
         }
     }
@@ -142,7 +138,7 @@ public class GameCLI {
     }
     
     
-    public Action promptPlayerAction(Player player, List<Combatant> enemies, BattleEngine engine) {
+    public Action promptPlayerAction(Combatant player, List<Combatant> enemies) {
         System.out.println();
         System.out.println("  " + player.getName() + "'s turn — choose an action:");
         System.out.println("    [1] Basic Attack");
@@ -157,11 +153,11 @@ public class GameCLI {
         }
 
         // Special skill
-        if (player.isSpecialSkillAvailable()) {
-            System.out.println("    [4] " + player.getSpecialSkillName() + " (READY)");
+        if (player.isSkillAvailable()) {
+            System.out.println("    [4] " + player.getSpecialSkill() + " (READY)");
         } else {
-            System.out.println("    [4] " + player.getSpecialSkillName()
-                    + " (cooldown: " + player.getSpecialSkillCooldown() + " turns)");
+            System.out.println("    [4] " + player.getSpecialSkill().getName()
+                    + " (cooldown: " + player.getSkillCooldown() + " turns)");
         }
 
         int choice = readInt(1, 4);
@@ -178,7 +174,7 @@ public class GameCLI {
                 yield new ItemAction(chosen);
             }
             case 4 -> {
-                if (!player.isSpecialSkillAvailable()) {
+                if (!player.isSkillAvailable()) {
                     System.out.println("  Special skill on cooldown! Defaulting to Basic Attack.");
                     yield new BasicAttack();
                 }
@@ -188,7 +184,7 @@ public class GameCLI {
         };
     }
     
-    private Item promptItemSelection(Player player) {
+    private Item promptItemSelection(Combatant player) {
         List<Item> inventory = player.getInventory();
         System.out.println("  Select item:");
         for (int i = 0; i < inventory.size(); i++) {
@@ -209,13 +205,13 @@ public class GameCLI {
         return targets.get(choice);
     }
     
-    public void displayBattleEnd(boolean playerWon, Player player, List<Enemy> remainingEnemies, int totalRounds) {
+    public void displayBattleEnd(boolean playerWon, Combatant player, List<Combatant> remainingEnemies, int totalRounds) {
     	System.out.println();
         System.out.println("══════════════════════════════════════════════════");
         if (playerWon) {
             System.out.println("  ★ VICTORY! Congratulations, you defeated all enemies!");
             System.out.println("  Statistics:");
-            System.out.println("    Remaining HP : " + player.getHp() + " / " + player.getMaxHp());
+            System.out.println("    Remaining HP : " + player.getHp() + " / " + player.getMaxhp());
             System.out.println("    Total Rounds : " + totalRounds);
             System.out.println("    Items left   : " + formatItems(player));
         } else {
@@ -239,7 +235,7 @@ public class GameCLI {
     
     //Helper
     
-    private String formatItems(Player player) {
+    private String formatItems(Combatant player) {
         List<Item> items = player.getInventory();
         if (items.isEmpty()) return "(none)";
         StringBuilder sb = new StringBuilder();

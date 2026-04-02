@@ -8,6 +8,7 @@ public class ArcaneBuffEffect extends StatusEffect {
     public ArcaneBuffEffect(int duration, int boost) {
         super(duration);
         this.boost = boost;
+        name = "Arcane Buff";
     }
 
     @Override

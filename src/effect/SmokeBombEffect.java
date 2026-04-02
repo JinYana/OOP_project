@@ -5,7 +5,9 @@ import combatant.Combatant;
 public class SmokeBombEffect extends StatusEffect {
 
     public SmokeBombEffect(int duration) {
+
         super(duration);
+        name = "Smoke Bomb";
     }
 
     @Override

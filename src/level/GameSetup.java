@@ -1,27 +1,126 @@
 package level;
 
-import combatant.Player;
-import combatant.Warrior;
-import combatant.Wizard;
+import combatant.*;
+import items.Item;
+import items.Potion;
+import items.PowerStone;
+import items.SmokeBomb;
+import strategy.BasicAttackStrategy;
+import strategy.EnemyActionStrategy;
+import ui.GameCLI;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class GameSetup {
 
-    public static Player buildPlayer(String choice){
-        if(Objects.equals(choice, "warrior")){
-            return new Warrior();
+
+
+    public enum PlayerClass{
+        WARRIOR,
+        WIZARD
+    }
+
+    public enum ItemChoice{
+        POTION,
+        POWERSTONE,
+        SMOKEBOMB
+    }
+
+    private EnemyActionStrategy wolfStrat = new BasicAttackStrategy();
+    private EnemyActionStrategy goblinStrat = new BasicAttackStrategy();
+
+    public Combatant buildPlayer(GameCLI ui){
+        GameSetup.PlayerClass chosenclass= ui.promptPlayerClass();
+
+
+        Player p = switch (chosenclass){
+            case WARRIOR ->  new Warrior();
+            case WIZARD -> new Wizard();
+        };
+
+        // choose 2 items
+        ArrayList<Item> inventory = new ArrayList<>();
+        for(int i = 0; i < 2; i++){
+            GameSetup.ItemChoice chosenitem = ui.promptItemChoice(i + 1);
+            Item item = switch (chosenitem){
+                case POTION -> new Potion();
+                case SMOKEBOMB -> new SmokeBomb();
+                case POWERSTONE -> new PowerStone();
+            };
+
+            p.addItem(item);
 
         }
-        else{
-            return new Wizard();
-        }
+
+        return  p;
+
 
 
     }
 
 
-    public static Level buildLevel(){
-            return new Level();
+    public  Level buildLevel(GameCLI ui){
+
+        Level.Difficulty diff = ui.promptDifficulty();
+        Level level;
+        ArrayList<Combatant> enemyList;
+        ArrayList<Combatant> backupenemyList;
+            switch (diff){
+                case EASY:
+                    enemyList = new ArrayList<>();
+                    //initial: 3 goblins, no backup
+                    enemyList.add(new Goblin(goblinStrat));
+                    enemyList.add(new Goblin(goblinStrat));
+                    enemyList.add(new Goblin(goblinStrat));
+                    level = new Level(enemyList, null, false, "Easy");
+
+                case MEDIUM:
+                    enemyList = new ArrayList<>();
+                    backupenemyList = new ArrayList<>();
+
+                    //initial: 1 wolf 1 goblin
+                    enemyList.add(new Goblin(goblinStrat));
+                    enemyList.add(new Wolf(wolfStrat));
+
+                    //backup: 2 wolf
+                    backupenemyList.add(new Wolf(wolfStrat));
+                    backupenemyList.add(new Wolf(wolfStrat));
+
+                    level = new Level(enemyList, backupenemyList, false, "Medium");
+
+                case HARD:
+                    enemyList = new ArrayList<>();
+                    backupenemyList = new ArrayList<>();
+
+                    //initial: 2 goblins
+                    enemyList.add(new Goblin(goblinStrat));
+                    enemyList.add(new Goblin(goblinStrat));
+
+                    //backup: 2 wolf, 1 goblin
+                    backupenemyList.add(new Wolf(wolfStrat));
+                    backupenemyList.add(new Wolf(wolfStrat));
+                    backupenemyList.add(new Goblin(goblinStrat));
+
+                    level = new Level(enemyList, backupenemyList, false, "Hard");
+
+
+               default: //default level is medium
+                    enemyList = new ArrayList<>();
+                    backupenemyList = new ArrayList<>();
+
+                    //initial: 1 wolf 1 goblin
+                    enemyList.add(new Goblin(goblinStrat));
+                    enemyList.add(new Wolf(wolfStrat));
+
+                    //backup: 2 wolf
+                    backupenemyList.add(new Wolf(wolfStrat));
+                    backupenemyList.add(new Wolf(wolfStrat));
+
+                    level = new Level(enemyList, backupenemyList, false, "Medium");
+
+            }
+            return level;
     }
 }

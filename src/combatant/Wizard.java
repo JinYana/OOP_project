@@ -7,7 +7,7 @@ public class Wizard extends Player{
 
     public Wizard() {
         //max hp, attack, defense, speed
-        super(200, 50, 10, 20);
+        super("Wizard", 200, 50, 10, 20);
     }
 
     @Override

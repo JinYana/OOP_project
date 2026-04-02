@@ -8,6 +8,7 @@ public class DefenseBoostEffect extends StatusEffect {
     public DefenseBoostEffect(int duration, int boost) {
         super(duration);
         this.boost = boost;
+        name = "Defense Boost";
     }
 
     @Override

@@ -1,12 +1,7 @@
 package items;
-
-import action.Action;
 import combatant.Combatant;
-import combatant.Player;
 import ui.GameCLI;
-
 import java.util.ArrayList;
-
 public class PowerStone extends Item {
 
     static int quanity = 0;

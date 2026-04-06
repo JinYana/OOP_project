@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import action.Action;
+import effect.SmokeBombEffect;
 import effect.StatusEffect;
 import effect.StunEffect;
-import engine.BattleEngine;
 import items.Item;
 import items.Potion;
 import ui.GameCLI;
@@ -53,14 +53,7 @@ public abstract class Combatant {
         return speed;
     }
 
-    public ArrayList<String> getStatusEffectsString() {
-        ArrayList<String> stringstatus = new ArrayList<>();
-        for(StatusEffect s : statusEffects){
-            stringstatus.add(s.getName());
 
-        }
-        return  stringstatus;
-    }
 
     public ArrayList<StatusEffect> getStatusEffects(){
         return statusEffects;
@@ -160,7 +153,12 @@ public abstract class Combatant {
     }
 
     public boolean isSmokeBombActive() {
-        return this.statusEffects.contains("Smoke Bomb");
+        for (StatusEffect e : this.statusEffects) {
+            if(e instanceof SmokeBombEffect){
+                return true;
+            }
+        }
+        return false;
     }
     
     public boolean isDefeated() {

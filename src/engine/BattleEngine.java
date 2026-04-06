@@ -35,7 +35,7 @@ public class BattleEngine {
     }
 
 
-    /** Runs the battle to completion. Returns true if the player wins. */
+
     public boolean run() {
         ui.displayBattleStart(player, livingEnemies, level);
 
@@ -124,19 +124,7 @@ public class BattleEngine {
     }
 
 
-    private Combatant resolveTarget(Action action, Combatant player) {
 
-        if(action.isRequiresTarget()){
-            return ui.promptTargetSelection(livingEnemies);
-        }
-        else if(action.isAOE()){// checking if chosen skill is arcane blast. If so, return placeholder target
-            return livingEnemies.isEmpty() ? player : livingEnemies.get(0);
-        }
-        else{
-            return player;
-        }
-
-    }
 
     // Enemy turn
     private void processEnemyTurn(Combatant enemy) {
@@ -184,15 +172,7 @@ public class BattleEngine {
         livingEnemies.removeAll(defeated);
     }
 
-    // =========================================================================
-    // Public helpers called by Action / Item classes
-    // =========================================================================
 
-
-    /** Routes all battle log messages through the UI layer. */
-    public void log(String message) {
-        ui.displayLog(message);
-    }
 
 
     private List<Combatant> buildCombatantList() {

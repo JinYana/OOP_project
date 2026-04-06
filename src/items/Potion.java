@@ -1,8 +1,5 @@
 package items;
-
 import combatant.Combatant;
-import combatant.Player;
-
 import java.util.ArrayList;
 
 public class Potion extends Item {

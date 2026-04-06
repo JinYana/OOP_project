@@ -1,8 +1,7 @@
 package action;
 
 import combatant.Combatant;
-import effect.SmokeBombEffect;
-import effect.StatusEffect;
+
 
 import java.util.ArrayList;
 
@@ -16,16 +15,11 @@ public class BasicAttack extends Action {
 
     @Override
     public void execute(Combatant actor, ArrayList<Combatant> targets) {
-        boolean smokebombActive = false;
-        Combatant target = targets.get(0);
-        for (StatusEffect e : target.getStatusEffects()) {
-            if(e instanceof SmokeBombEffect){
-                smokebombActive = true;
-                break;
-            }
-        }
 
-        if(!smokebombActive){
+        Combatant target = targets.get(0);
+
+
+        if(!target.isSmokeBombActive()){
             String damage = target.takeDamage(actor.getAttack());
             System.out.println(actor.getLabel() + " uses Basic Attack on " + target.getLabel() + damage );
         }

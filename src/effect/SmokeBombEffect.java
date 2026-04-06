@@ -7,11 +7,18 @@ public class SmokeBombEffect extends StatusEffect {
     public SmokeBombEffect(int duration) {
 
         super(duration);
-        name = "Smoke Bomb";
+        name = "SMOKE BOMB";
     }
 
     @Override
-    public void effect(Combatant target) {
-        System.out.println(target.getLabel() + " is hidden in smoke!");
+    public void onApply(Combatant target) {
+
     }
+
+    @Override
+    public void onRemove(Combatant target) {
+
+    }
+
+
 }

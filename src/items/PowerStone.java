@@ -3,6 +3,9 @@ package items;
 import action.Action;
 import combatant.Combatant;
 import combatant.Player;
+import ui.GameCLI;
+
+import java.util.ArrayList;
 
 public class PowerStone extends Item {
 
@@ -11,12 +14,23 @@ public class PowerStone extends Item {
     public PowerStone() {
 
         name = "Power Stone";
+        quanity++;
     }
 
     @Override
-    public void use(Combatant player) {
-        Action skill = player.getSpecialSkill();
+    public void use(Combatant actor, ArrayList<Combatant> targets) {
+        System.out.println(actor.getLabel() + " activates the Power Stone!");
+        GameCLI ui = new GameCLI();
 
+        if(actor.getSpecialSkill().isRequiresTarget()){
+            Combatant target = ui.promptTargetSelection(targets);
+            ArrayList <Combatant> targetList = new ArrayList<>();
+            targetList.add(target);
+            actor.getSpecialSkill().PowerStoneExecute(actor, targetList);
+        }
+        else{
+            actor.getSpecialSkill().PowerStoneExecute(actor, targets);
+        }
 
     }
 }

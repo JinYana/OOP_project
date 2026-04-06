@@ -39,13 +39,9 @@ public abstract class Player extends Combatant {
 
 	}
 
-	//Abstract method implementations
-	public void decrementCoolDown() {
 
-		if (this.getSkillCooldown() > 0) {
-			updateSkillCooldown();
-		}
-	}
+
+
 	public Action chooseAction(GameCLI ui, List<Combatant> enemies, Combatant targets){
 		return ui.promptPlayerAction(this, enemies);
 	}

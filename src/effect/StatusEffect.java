@@ -10,17 +10,23 @@ public abstract class StatusEffect {
         return name;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
     public StatusEffect(int duration) {
         this.duration = duration;
     }
 
-    public abstract void effect(Combatant target);
+    public abstract void onApply(Combatant target);
+
+    public abstract void onRemove(Combatant target);
 
     public void reduceDuration() {
         duration--;
     }
 
     public boolean isExpired() {
-        return duration <= 0;
+        return duration == 0;
     }
 }

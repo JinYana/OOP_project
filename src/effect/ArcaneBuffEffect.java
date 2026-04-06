@@ -8,11 +8,20 @@ public class ArcaneBuffEffect extends StatusEffect {
     public ArcaneBuffEffect(int duration, int boost) {
         super(duration);
         this.boost = boost;
-        name = "Arcane Buff";
+        name = "ARCANE BUFF";
     }
 
+
     @Override
-    public void effect(Combatant target) {
-        System.out.println(target.getLabel() + " gains +" + boost + " magic power!");
+    public void onApply(Combatant target) {
+        target.setAttack(target.getAttack() + boost);
+
+    }
+
+
+    // Arcane Buff lasts till end of level, no need to remove effect
+    @Override
+    public void onRemove(Combatant target) {
+
     }
 }

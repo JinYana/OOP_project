@@ -1,7 +1,6 @@
 package action;
 
 import combatant.Combatant;
-import effect.ArcaneBuffEffect;
 import effect.StunEffect;
 
 import java.util.ArrayList;

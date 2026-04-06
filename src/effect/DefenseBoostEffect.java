@@ -15,12 +15,12 @@ public class DefenseBoostEffect extends StatusEffect {
 
     @Override
     public void onApply(Combatant target) {
-        target.setDefense(target.getDefense() + 10);
+        target.setDefense(target.getDefense() + boost);
     }
 
     @Override
     public void onRemove(Combatant target) {
-        target.setDefense(target.getDefense() - 10);
+        target.setDefense(target.getDefense() - boost);
 
     }
 }

@@ -6,7 +6,7 @@ import effect.ArcaneBuffEffect;
 import java.util.ArrayList;
 
 public class ArcaneBlast extends Action {
-    String name;
+
 
     public ArcaneBlast(){
         super("Arcane Blast");

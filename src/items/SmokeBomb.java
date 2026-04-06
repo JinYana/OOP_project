@@ -1,7 +1,5 @@
 package items;
-
 import combatant.Combatant;
-import combatant.Player;
 import effect.SmokeBombEffect;
 
 import java.util.ArrayList;

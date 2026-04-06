@@ -110,9 +110,18 @@ public class GameCLI {
         // Active effects on player
         List<StatusEffect> effects = player.getStatusEffects();
         if (!effects.isEmpty()) {
-            System.out.print("  Active effects on " + player.getName() + ":");
+            boolean headerplayed = false;
+
             for(StatusEffect e : effects){
-                System.out.print(" [" + e.getName() + ": " + e.getDuration() + " turns left]");
+
+                if(e.getDuration() > 1){
+                    if(!headerplayed){
+                        System.out.print("  Active effects on " + player.getName() + ":");
+                        headerplayed = true;
+                    }
+                    System.out.print(" [" + e.getName() + ": " + (e.getDuration() - 1) + " turns left]");
+                }
+
             }
             System.out.print("\n");
         }
@@ -138,12 +147,10 @@ public class GameCLI {
         }
     }
 	
-    public void displayLog(String message) {
-        System.out.println(message);
-    }
+
     
     
-    public Action promptPlayerAction(Combatant player, List<Combatant> enemies) {
+    public Action promptPlayerAction(Combatant player) {
         System.out.println();
         System.out.println("  " + player.getName() + "'s turn — choose an action:");
         System.out.println("    [1] Basic Attack");
@@ -229,15 +236,7 @@ public class GameCLI {
     	
     }
     
-    public int promptPostGame() {
-        System.out.println();
-        System.out.println("  What would you like to do?");
-        System.out.println("  [1] Replay with same settings");
-        System.out.println("  [2] New game (return to home screen)");
-        System.out.println("  [3] Exit");
-        return readInt(1, 3);
-    }
-    
+
     //Helper
     
     private String formatItems(Combatant player) {
@@ -270,9 +269,7 @@ public class GameCLI {
         }
     }
     
-    public void close() {
-        scanner.close();
-    }
+
 
 
 

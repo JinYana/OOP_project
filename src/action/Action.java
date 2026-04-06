@@ -19,9 +19,7 @@ public abstract class Action {
         return requiresTarget;
     }
 
-    public boolean isAOE(){
-        return aoe;
-    }
+
 
     public String getName(){
         return name;

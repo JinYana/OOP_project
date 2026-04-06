@@ -1,7 +1,5 @@
 package combatant;
-
 import action.Action;
-import engine.BattleEngine;
 import items.Item;
 import ui.GameCLI;
 
@@ -43,7 +41,7 @@ public abstract class Player extends Combatant {
 
 
 	public Action chooseAction(GameCLI ui, List<Combatant> enemies, Combatant targets){
-		return ui.promptPlayerAction(this, enemies);
+		return ui.promptPlayerAction(this);
 	}
 	//End of abstract method implementations
 

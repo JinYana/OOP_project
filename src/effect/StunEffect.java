@@ -6,11 +6,18 @@ public class StunEffect extends StatusEffect {
 
     public StunEffect(int duration) {
         super(duration);
-        name = "Stun";
+        name = "STUN";
     }
 
     @Override
-    public void effect(Combatant target) {
-        System.out.println(target.getLabel() + " is stunned and cannot act!");
+    public void onApply(Combatant target) {
+
     }
+
+    @Override
+    public void onRemove(Combatant target) {
+
+    }
+
+
 }

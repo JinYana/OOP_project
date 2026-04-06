@@ -2,6 +2,7 @@ package ui;
 
 import action.*;
 import combatant.Combatant;
+import effect.StatusEffect;
 import items.Item;
 import level.GameSetup;
 import level.Level;
@@ -102,14 +103,18 @@ public class GameCLI {
                 + player.getName() + " HP: " + player.getHp() + "/" + player.getMaxhp());
         for (Combatant e : livingEnemies) {
             System.out.print(" | " + e.getName() + " HP: " + e.getHp());
-            if (e.isStunned()) System.out.print(" [STUNNED]");
+            if (e.stunDuration()> 1) System.out.print(" [STUNNED: " + (e.stunDuration() - 1) + " turns left]");
         }
         System.out.println();
 
         // Active effects on player
-        List<String> effects = player.getStatusEffects();
+        List<StatusEffect> effects = player.getStatusEffects();
         if (!effects.isEmpty()) {
-            System.out.println("  Active effects on " + player.getName() + ": " + effects);
+            System.out.print("  Active effects on " + player.getName() + ":");
+            for(StatusEffect e : effects){
+                System.out.print(" [" + e.getName() + ": " + e.getDuration() + " turns left]");
+            }
+            System.out.print("\n");
         }
 
         // Items and cooldown
@@ -129,7 +134,7 @@ public class GameCLI {
         System.out.println();
         System.out.println("  !! All initial enemies defeated — BACKUP SPAWN !!");
         for (Combatant e : backupEnemies) {
-            System.out.println("     + " + e);
+            System.out.println("     + " + e.getLabel());
         }
     }
 	
@@ -154,7 +159,7 @@ public class GameCLI {
 
         // Special skill
         if (player.isSkillAvailable()) {
-            System.out.println("    [4] " + player.getSpecialSkill() + " (READY)");
+            System.out.println("    [4] " + player.getSpecialSkill().getName() + " (READY)");
         } else {
             System.out.println("    [4] " + player.getSpecialSkill().getName()
                     + " (cooldown: " + player.getSkillCooldown() + " turns)");

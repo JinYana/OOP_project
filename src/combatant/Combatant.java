@@ -15,7 +15,7 @@ public abstract class Combatant {
     private String name;
     private int hp, maxhp, attack, defense, speed;
     private ArrayList<StatusEffect> statusEffects;
-    private int skillCooldown = 3;
+    private int skillCooldown = 0;
     protected boolean isPlayer;
     
     public Combatant(String name, int maxhp, int attack, int defense, int speed) {
@@ -28,7 +28,7 @@ public abstract class Combatant {
         this.statusEffects = new ArrayList<>();
     }
 
-    //Getter methods
+    //--------------Getter methods--------------
     public String getName() {
         return name;
     }
@@ -53,7 +53,7 @@ public abstract class Combatant {
         return speed;
     }
 
-    public ArrayList<String> getStatusEffects() {
+    public ArrayList<String> getStatusEffectsString() {
         ArrayList<String> stringstatus = new ArrayList<>();
         for(StatusEffect s : statusEffects){
             stringstatus.add(s.getName());
@@ -61,7 +61,27 @@ public abstract class Combatant {
         }
         return  stringstatus;
     }
-    // End of getter methods
+
+    public ArrayList<StatusEffect> getStatusEffects(){
+        return statusEffects;
+    }
+    //----------End of getter methods------------
+
+
+    //--------------Setter methods----------------
+    public void setAttack(int a){
+        this.attack = a;
+    }
+
+    public void setDefense(int d){
+        this.defense = d;
+    }
+    //-----------End of setter methods--------------
+
+
+
+
+
 
     //Abstract methods
     public abstract Action chooseAction(GameCLI ui, List<Combatant> enemies, Combatant targets);
@@ -70,21 +90,29 @@ public abstract class Combatant {
     //End of abstract methods
 
 
-    //Cooldown methods
+    //------------Cooldown methods-------------------------
     public int getSkillCooldown() {
         return skillCooldown;
+    }
+
+    public void applyCooldown() {
+        this.skillCooldown = 3;
     }
 
     public boolean isSkillAvailable() {
         return this.getSkillCooldown() <= 0;
     }
 
-    public void decrementCoolDown(){}
-
-    public void updateSkillCooldown(){
-        skillCooldown--;
+    public void decrementCoolDown(){
+        if (this.getSkillCooldown() > 0) {
+            skillCooldown--;
+        }
     }
-    //End of cooldown methods
+
+
+
+
+    //-------------End of cooldown methods----------------------
 
     //Inventory functions
     public ArrayList<Item> getInventory(){
@@ -99,9 +127,11 @@ public abstract class Combatant {
     }
     //End of inventory functions
 
-    public void takeDamage(int damage) {
+    public String takeDamage(int damage) {
+        int tempDmg = damage;
 	    damage = Math.max(0, damage - this.defense);
 	    this.hp = Math.max(0, this.hp - damage);
+        return "(Damage: " + tempDmg + " - " + defense + " = " + (tempDmg - this.defense) + ")";
 	}
 
     
@@ -118,11 +148,11 @@ public abstract class Combatant {
         ArrayList<StatusEffect> expired = new ArrayList<>();
 
         for (StatusEffect e : this.statusEffects) {
-            e.effect(this);
             e.reduceDuration();
 
             if (e.isExpired()) {
                 expired.add(e);
+                e.onRemove(this);
             }
         }
 
@@ -149,6 +179,21 @@ public abstract class Combatant {
         }
 
         return false;
+
+
+    }
+
+    public int stunDuration() {
+        int largestStun = 0;
+        for(StatusEffect s : statusEffects){
+            if(s instanceof StunEffect){
+                if(s.getDuration() > largestStun){
+                    largestStun = s.getDuration();
+                }
+            }
+        }
+
+        return largestStun;
 
 
     }

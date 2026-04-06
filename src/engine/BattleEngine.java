@@ -20,7 +20,7 @@ public class BattleEngine {
     private final TurnOrderStrategy turnOrderStrategy;
     private final GameCLI ui;
 
-    private final List<Combatant> livingEnemies = new ArrayList<>();
+    private final ArrayList<Combatant> livingEnemies = new ArrayList<>();
     private int roundNumber = 0;
     private boolean battleOver = false;
     private boolean playerWon  = false;
@@ -68,7 +68,10 @@ public class BattleEngine {
         if (battleOver) return;
 
         // Backup spawn check at end of round
-        spawnBackup();
+        if(livingEnemies.isEmpty() && level.hasBackup() && !level.isBackupTriggered()){
+            spawnBackup();
+        }
+
         checkBattleEnd();
 
         ui.displayRoundSummary(roundNumber, player, livingEnemies);
@@ -103,8 +106,19 @@ public class BattleEngine {
 
         Action action = player.chooseAction(ui, livingEnemies,  player);
 
-        Combatant target = resolveTarget(action, player);
-        action.execute(player, target);
+
+        if(action.isRequiresTarget()){
+
+            Combatant target = ui.promptTargetSelection(livingEnemies);
+            ArrayList <Combatant> targetList = new ArrayList<>();
+            targetList.add(target);
+            action.execute(player, targetList);
+
+        } else{
+            action.execute(player, livingEnemies);
+        }
+
+
 
         removeDefeated();
     }
@@ -115,7 +129,7 @@ public class BattleEngine {
         if(action.isRequiresTarget()){
             return ui.promptTargetSelection(livingEnemies);
         }
-        else if(action.isAOE()){
+        else if(action.isAOE()){// checking if chosen skill is arcane blast. If so, return placeholder target
             return livingEnemies.isEmpty() ? player : livingEnemies.get(0);
         }
         else{
@@ -128,7 +142,9 @@ public class BattleEngine {
     private void processEnemyTurn(Combatant enemy) {
 
         Action action = enemy.chooseAction(ui, livingEnemies,  player);
-        action.execute(enemy, player);
+        ArrayList <Combatant> targetList = new ArrayList<>();
+        targetList.add(player);
+        action.execute(enemy, targetList);
 
         if (player.isDefeated()) {
             battleOver = true;

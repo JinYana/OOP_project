@@ -64,17 +64,17 @@ public class GameSetup {
     public  Level buildLevel(GameCLI ui){
 
         Level.Difficulty diff = ui.promptDifficulty();
-        Level level;
+
         ArrayList<Combatant> enemyList;
         ArrayList<Combatant> backupenemyList;
-            switch (diff){
+        Level lev = switch (diff){
                 case EASY:
                     enemyList = new ArrayList<>();
                     //initial: 3 goblins, no backup
                     enemyList.add(new Goblin(goblinStrat));
                     enemyList.add(new Goblin(goblinStrat));
                     enemyList.add(new Goblin(goblinStrat));
-                    level = new Level(enemyList, null, false, "Easy");
+                    yield new Level(enemyList, null, false, "Easy");
 
                 case MEDIUM:
                     enemyList = new ArrayList<>();
@@ -88,7 +88,7 @@ public class GameSetup {
                     backupenemyList.add(new Wolf(wolfStrat));
                     backupenemyList.add(new Wolf(wolfStrat));
 
-                    level = new Level(enemyList, backupenemyList, false, "Medium");
+                    yield new Level(enemyList, backupenemyList, false, "Medium");
 
                 case HARD:
                     enemyList = new ArrayList<>();
@@ -103,7 +103,7 @@ public class GameSetup {
                     backupenemyList.add(new Wolf(wolfStrat));
                     backupenemyList.add(new Goblin(goblinStrat));
 
-                    level = new Level(enemyList, backupenemyList, false, "Hard");
+                    yield new Level(enemyList, backupenemyList, false, "Hard");
 
 
                default: //default level is medium
@@ -118,9 +118,9 @@ public class GameSetup {
                     backupenemyList.add(new Wolf(wolfStrat));
                     backupenemyList.add(new Wolf(wolfStrat));
 
-                    level = new Level(enemyList, backupenemyList, false, "Medium");
+                    yield new Level(enemyList, backupenemyList, false, "Medium");
 
-            }
-            return level;
+        };
+        return lev;
     }
 }

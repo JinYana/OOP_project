@@ -8,11 +8,19 @@ public class DefenseBoostEffect extends StatusEffect {
     public DefenseBoostEffect(int duration, int boost) {
         super(duration);
         this.boost = boost;
-        name = "Defense Boost";
+        name = "DEFENSE BOOST";
+    }
+
+
+
+    @Override
+    public void onApply(Combatant target) {
+        target.setDefense(target.getDefense() + 10);
     }
 
     @Override
-    public void effect(Combatant target) {
-        System.out.println(target.getLabel() + " gains +" + boost + " defense!");
+    public void onRemove(Combatant target) {
+        target.setDefense(target.getDefense() - 10);
+
     }
 }

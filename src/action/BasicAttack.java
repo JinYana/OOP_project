@@ -1,6 +1,7 @@
 package action;
 
 import combatant.Combatant;
+import ui.GameCLI;
 
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class BasicAttack extends Action {
     }
 
     @Override
-    public void execute(Combatant actor, ArrayList<Combatant> targets) {
+    public void execute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
 
         Combatant target = targets.get(0);
 

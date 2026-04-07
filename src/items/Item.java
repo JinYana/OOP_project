@@ -1,5 +1,7 @@
 package items;
 import combatant.Combatant;
+import ui.GameCLI;
+
 import java.util.ArrayList;
 
 abstract public class Item {
@@ -15,6 +17,6 @@ abstract public class Item {
         return name;
     }
 
-    abstract public void use(Combatant actor, ArrayList<Combatant> targets);
+    abstract public void use(Combatant actor, ArrayList<Combatant> targets, GameCLI ui);
 
 }

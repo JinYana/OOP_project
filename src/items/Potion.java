@@ -1,5 +1,7 @@
 package items;
 import combatant.Combatant;
+import ui.GameCLI;
+
 import java.util.ArrayList;
 
 public class Potion extends Item {
@@ -14,7 +16,7 @@ public class Potion extends Item {
     }
 
     @Override
-    public void use(Combatant actor, ArrayList<Combatant> targets) {
+    public void use(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
         actor.heal(heal);
         quanity --;
         System.out.println(actor.getLabel() + " uses " + this.name);

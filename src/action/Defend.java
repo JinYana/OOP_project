@@ -2,6 +2,7 @@ package action;
 
 import combatant.Combatant;
 import effect.DefenseBoostEffect;
+import ui.GameCLI;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class Defend extends Action {
     }
 
     @Override
-    public void execute(Combatant actor, ArrayList<Combatant> targets) {
+    public void execute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
 
         DefenseBoostEffect db = new DefenseBoostEffect(2, 10);
         actor.addStatus(db);

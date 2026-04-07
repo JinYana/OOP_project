@@ -112,10 +112,10 @@ public class BattleEngine {
             Combatant target = ui.promptTargetSelection(livingEnemies);
             ArrayList <Combatant> targetList = new ArrayList<>();
             targetList.add(target);
-            action.execute(player, targetList);
+            action.execute(player, targetList, ui);
 
         } else{
-            action.execute(player, livingEnemies);
+            action.execute(player, livingEnemies, ui);
         }
 
 
@@ -132,7 +132,7 @@ public class BattleEngine {
         Action action = enemy.chooseAction(ui, livingEnemies,  player);
         ArrayList <Combatant> targetList = new ArrayList<>();
         targetList.add(player);
-        action.execute(enemy, targetList);
+        action.execute(enemy, targetList, ui);
 
         if (player.isDefeated()) {
             battleOver = true;

@@ -2,6 +2,7 @@ package action;
 
 import combatant.Combatant;
 import effect.ArcaneBuffEffect;
+import ui.GameCLI;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ public class ArcaneBlast extends Action {
     }
 
     @Override
-    public void PowerStoneExecute(Combatant actor, ArrayList<Combatant> targets) {
+    public void PowerStoneExecute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
         ArcaneBuffEffect ab = new ArcaneBuffEffect(-100, 10);//duration -100 to ensure it lasts to the end of the level
         for(Combatant e: targets){
             String damage = e.takeDamage(actor.getAttack());
@@ -33,9 +34,9 @@ public class ArcaneBlast extends Action {
     }
 
     @Override
-    public void execute(Combatant actor, ArrayList<Combatant> targets) {
+    public void execute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
 
-        this.PowerStoneExecute(actor, targets);
+        this.PowerStoneExecute(actor, targets, ui);
         actor.applyCooldown();
 
     }

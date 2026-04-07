@@ -13,18 +13,18 @@ public class PowerStone extends Item {
     }
 
     @Override
-    public void use(Combatant actor, ArrayList<Combatant> targets) {
+    public void use(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
         System.out.println(actor.getLabel() + " activates the Power Stone!");
-        GameCLI ui = new GameCLI();
+
 
         if(actor.getSpecialSkill().isRequiresTarget()){
             Combatant target = ui.promptTargetSelection(targets);
             ArrayList <Combatant> targetList = new ArrayList<>();
             targetList.add(target);
-            actor.getSpecialSkill().PowerStoneExecute(actor, targetList);
+            actor.getSpecialSkill().PowerStoneExecute(actor, targetList, ui);
         }
         else{
-            actor.getSpecialSkill().PowerStoneExecute(actor, targets);
+            actor.getSpecialSkill().PowerStoneExecute(actor, targets, ui);
         }
 
     }

@@ -2,6 +2,7 @@ package action;
 
 import combatant.Combatant;
 import items.Item;
+import ui.GameCLI;
 
 import java.util.ArrayList;
 
@@ -15,8 +16,8 @@ public class ItemAction extends Action{
         aoe = false;
     }
     @Override
-    public void execute(Combatant actor, ArrayList<Combatant> targets) {
+    public void execute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
 
-        item.use(actor, targets);
+        item.use(actor, targets, ui);
     }
 }

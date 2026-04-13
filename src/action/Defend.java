@@ -15,12 +15,13 @@ public class Defend extends Action {
     }
 
     @Override
-    public void execute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
+    public int execute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
 
         DefenseBoostEffect db = new DefenseBoostEffect(2, 10);
         actor.addStatus(db);
         db.onApply(actor);
         System.out.println(actor.getLabel() + " uses Defend (Total Defense: " + actor.getDefense() + ")");
+        return 0;
 
 
     }

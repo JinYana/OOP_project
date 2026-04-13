@@ -17,18 +17,21 @@ public class ShieldBash extends Action {
     }
 
     @Override
-    public void execute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
-        this.PowerStoneExecute(actor, targets, ui);
+    public int execute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
         actor.applyCooldown();
+        return this.PowerStoneExecute(actor, targets, ui);
+
 
     }
 
     @Override
-    public void PowerStoneExecute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
+    public int PowerStoneExecute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
         Combatant target = targets.get(0);
         target.takeDamage(actor.getAttack());
+        int totaldamage = actor.getAttack();
         target.addStatus(new StunEffect(3));// duration of 3 to skip 2 turns to offset initial tick immediately after stunning enemy
         System.out.println(actor.getLabel() + " uses Shield Bash on " + target.getLabel());
+        return totaldamage;
 
 
     }

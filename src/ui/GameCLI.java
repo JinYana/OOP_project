@@ -6,6 +6,9 @@ import effect.StatusEffect;
 import items.Item;
 import level.GameSetup;
 import level.Level;
+import observers.BattleEventListener;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -217,7 +220,7 @@ public class GameCLI {
         return targets.get(choice);
     }
     
-    public void displayBattleEnd(boolean playerWon, Combatant player, List<Combatant> remainingEnemies, int totalRounds) {
+    public void displayBattleEnd(boolean playerWon, Combatant player, List<Combatant> remainingEnemies, int totalRounds, ArrayList<BattleEventListener> listeners) {
     	System.out.println();
         System.out.println("══════════════════════════════════════════════════");
         if (playerWon) {
@@ -232,6 +235,19 @@ public class GameCLI {
             System.out.println("    Enemies remaining  : " + remainingEnemies.size());
             System.out.println("    Total Rounds Survived: " + totalRounds);
         }
+
+        for(BattleEventListener b: listeners){
+            if(b.getUnlockedAchievements() != null){
+                System.out.println("---------------Achievements---------------");
+                for(String s: b.getUnlockedAchievements()){
+                    System.out.println(s);
+                }
+            }
+        }
+
+
+
+
         System.out.println("══════════════════════════════════════════════════");
     	
     }

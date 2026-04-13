@@ -6,6 +6,8 @@ import action.Action;
 import combatant.Combatant;
 import level.Level;
 import strategy.TurnOrderStrategy;
+import observers.AchievementTracker;
+import observers.BattleEventListener;
 import ui.GameCLI;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class BattleEngine {
     private final GameCLI ui;
 
     private final ArrayList<Combatant> livingEnemies = new ArrayList<>();
+    private final ArrayList<BattleEventListener> listeners = new ArrayList<>();
     private int roundNumber = 0;
     private boolean battleOver = false;
     private boolean playerWon  = false;
@@ -32,6 +35,25 @@ public class BattleEngine {
         this.turnOrderStrategy = turnOrderStrategy;
         this.ui                = ui;
         livingEnemies.addAll(level.getInitialSpawn());
+        listeners.add(new AchievementTracker());
+    }
+
+    private void notifyDamageDealt(int damage) {
+        for (BattleEventListener l : listeners) {
+            l.onDamageDealt(damage);
+        }
+    }
+
+    private void notifyCombatantDefeated(Combatant target) {
+        for (BattleEventListener l : listeners) {
+            l.onCombatantDefeated(target);
+        }
+    }
+
+    private void notifyGameEnd(int round, boolean win) {
+        for (BattleEventListener l : listeners) {
+            l.onGameEnd(round, win);
+        }
     }
 
 
@@ -42,9 +64,11 @@ public class BattleEngine {
         while (!battleOver) {
             roundNumber++;
             runRound();
-        }
 
-        ui.displayBattleEnd(playerWon, player, livingEnemies, roundNumber);
+        }
+        notifyGameEnd(roundNumber, playerWon);
+
+        ui.displayBattleEnd(playerWon, player, livingEnemies, roundNumber, listeners);
         return playerWon;
     }
 
@@ -59,7 +83,9 @@ public class BattleEngine {
 
         for (Combatant combatant : turnOrder) {
             if (combatant.isDefeated()) continue;
-            if (battleOver) break;
+            if (battleOver) {
+                break;
+            }
             processTurn(combatant);
             checkBattleEnd();
             if (battleOver) break;
@@ -112,10 +138,12 @@ public class BattleEngine {
             Combatant target = ui.promptTargetSelection(livingEnemies);
             ArrayList <Combatant> targetList = new ArrayList<>();
             targetList.add(target);
-            action.execute(player, targetList, ui);
+            int damage = action.execute(player, targetList, ui);
+            notifyDamageDealt(damage);
 
         } else{
-            action.execute(player, livingEnemies, ui);
+            int damage = action.execute(player, livingEnemies, ui);
+            notifyDamageDealt(damage);
         }
 
 
@@ -168,6 +196,7 @@ public class BattleEngine {
                 .collect(Collectors.toList());
         for (Combatant e : defeated) {
             ui.displayEliminated(e);
+            notifyCombatantDefeated(e);
         }
         livingEnemies.removeAll(defeated);
     }

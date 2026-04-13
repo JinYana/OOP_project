@@ -16,8 +16,9 @@ public class ItemAction extends Action{
         aoe = false;
     }
     @Override
-    public void execute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
+    public int execute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
 
         item.use(actor, targets, ui);
+        return 0;
     }
 }

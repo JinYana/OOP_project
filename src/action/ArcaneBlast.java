@@ -17,10 +17,12 @@ public class ArcaneBlast extends Action {
     }
 
     @Override
-    public void PowerStoneExecute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
+    public int PowerStoneExecute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
         ArcaneBuffEffect ab = new ArcaneBuffEffect(-100, 10);//duration -100 to ensure it lasts to the end of the level
+        int totaldamage = 0;
         for(Combatant e: targets){
             String damage = e.takeDamage(actor.getAttack());
+            totaldamage = totaldamage + actor.getAttack();
             System.out.println(actor.getLabel() + " uses Arcane Blast on " + e.getLabel() + damage );
 
             if(e.isDefeated()){
@@ -30,14 +32,17 @@ public class ArcaneBlast extends Action {
             }
         }
 
+        return totaldamage;
+
 
     }
 
     @Override
-    public void execute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
+    public int execute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
 
-        this.PowerStoneExecute(actor, targets, ui);
         actor.applyCooldown();
+        return this.PowerStoneExecute(actor, targets, ui);
+
 
     }
 

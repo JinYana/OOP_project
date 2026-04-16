@@ -5,12 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * Sorts combatants by speed descending.
- * Equal speed: order is stable (preserves original list order, enemies before players
- * when they share the same speed value, matching the spec examples).
- * SRP: only responsible for ordering logic.
- */
+
 public class SpeedBasedTurnOrder implements TurnOrderStrategy {
 
     @Override

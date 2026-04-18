@@ -18,7 +18,7 @@ public class ArcaneBlast extends Action {
 
     @Override
     public int PowerStoneExecute(Combatant actor, ArrayList<Combatant> targets, GameCLI ui) {
-        ArcaneBuffEffect ab = new ArcaneBuffEffect(-100, 10);//duration -100 to ensure it lasts to the end of the level
+        ArcaneBuffEffect ab = new ArcaneBuffEffect(-100, 10);//duration -100 to ensure it lasts to the end of the engine.level
         int totaldamage = 0;
         for(Combatant e: targets){
             String damage = e.takeDamage(actor.getAttack());

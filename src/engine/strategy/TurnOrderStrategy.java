@@ -1,4 +1,4 @@
-package strategy;
+package engine.strategy;
 
 import combatant.Combatant;
 import java.util.List;

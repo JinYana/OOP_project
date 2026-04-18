@@ -1,4 +1,4 @@
-package engine.observers;
+package observers;
 
 import combatant.Combatant;
 

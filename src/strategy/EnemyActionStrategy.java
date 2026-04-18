@@ -1,4 +1,4 @@
-package engine.strategy;
+package strategy;
 
 import action.Action;
 

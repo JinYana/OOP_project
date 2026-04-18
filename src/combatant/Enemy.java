@@ -3,7 +3,7 @@ package combatant;
 import action.Action;
 import java.util.List;
 
-import engine.strategy.EnemyActionStrategy;
+import strategy.EnemyActionStrategy;
 import ui.GameCLI;
 
 public abstract class Enemy extends Combatant {

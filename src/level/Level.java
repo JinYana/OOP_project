@@ -1,8 +1,7 @@
-package engine.level;
+package level;
 
 import combatant.Combatant;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Level {

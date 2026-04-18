@@ -4,9 +4,9 @@ import action.*;
 import combatant.Combatant;
 import effect.StatusEffect;
 import items.Item;
-import engine.level.GameSetup;
-import engine.level.Level;
-import engine.observers.BattleEventListener;
+import level.GameSetup;
+import level.Level;
+import observers.BattleEventListener;
 
 import java.util.ArrayList;
 import java.util.List;

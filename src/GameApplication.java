@@ -1,9 +1,9 @@
 import combatant.Combatant;
 import engine.BattleEngine;
-import engine.level.GameSetup;
-import engine.level.Level;
-import engine.strategy.SpeedBasedTurnOrder;
-import engine.strategy.TurnOrderStrategy;
+import level.GameSetup;
+import level.Level;
+import strategy.SpeedBasedTurnOrder;
+import strategy.TurnOrderStrategy;
 import ui.GameCLI;
 
 public class GameApplication {

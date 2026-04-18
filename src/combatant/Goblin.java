@@ -1,7 +1,7 @@
 package combatant;
 
 import action.Action;
-import engine.strategy.EnemyActionStrategy;
+import strategy.EnemyActionStrategy;
 
 public class Goblin extends Enemy{
     public Goblin(EnemyActionStrategy strategy) {

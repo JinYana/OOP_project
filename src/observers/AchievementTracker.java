@@ -1,4 +1,4 @@
-package engine.observers;
+package observers;
 
 import combatant.Combatant;
 
@@ -10,11 +10,13 @@ public class AchievementTracker extends BattleEventListener {
     private ArrayList<String> unlockedAchivements = new ArrayList<>();
 
     public void onDamageDealt(int damage) {
+
         totalDamageDealt += damage;
 
 
+
         if (totalDamageDealt >= 200) {
-            unlock("★ Destroyer (Deal 200 total damage)");
+            unlock("★ I'll do it myself. (Deal 200 total damage without help from power stones)");
         }
     }
 

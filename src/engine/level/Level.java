@@ -1,11 +1,6 @@
-package level;
+package engine.level;
 
 import combatant.Combatant;
-import combatant.Enemy;
-import combatant.Goblin;
-import combatant.Wolf;
-import strategy.BasicAttackStrategy;
-import strategy.EnemyActionStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +15,8 @@ public class Level {
 
 
 
-    private List<Combatant> initialSpawn = new ArrayList<>();
-    private List<Combatant> backupSpawn = new ArrayList<>();
+    private List<Combatant> initialSpawn;
+    private List<Combatant> backupSpawn;
     private boolean backupTriggered;
     private String name;
 

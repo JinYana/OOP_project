@@ -1,17 +1,15 @@
-package level;
+package engine.level;
 
 import combatant.*;
 import items.Item;
 import items.Potion;
 import items.PowerStone;
 import items.SmokeBomb;
-import strategy.BasicAttackStrategy;
-import strategy.EnemyActionStrategy;
+import engine.strategy.BasicAttackStrategy;
+import engine.strategy.EnemyActionStrategy;
 import ui.GameCLI;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class GameSetup {
 
@@ -41,7 +39,6 @@ public class GameSetup {
         };
 
         // choose 2 items
-        ArrayList<Item> inventory = new ArrayList<>();
         for(int i = 0; i < 2; i++){
             GameSetup.ItemChoice chosenitem = ui.promptItemChoice(i + 1);
             Item item = switch (chosenitem){
@@ -67,7 +64,7 @@ public class GameSetup {
 
         ArrayList<Combatant> enemyList;
         ArrayList<Combatant> backupenemyList;
-        Level lev = switch (diff){
+        return switch (diff){
                 case EASY:
                     enemyList = new ArrayList<>();
                     //initial: 3 goblins, no backup
@@ -106,7 +103,7 @@ public class GameSetup {
                     yield new Level(enemyList, backupenemyList, false, "Hard");
 
 
-               default: //default level is medium
+               default: //default engine.level is medium
                     enemyList = new ArrayList<>();
                     backupenemyList = new ArrayList<>();
 
@@ -121,6 +118,5 @@ public class GameSetup {
                     yield new Level(enemyList, backupenemyList, false, "Medium");
 
         };
-        return lev;
     }
 }

@@ -19,7 +19,7 @@ public class ArcaneBuffEffect extends StatusEffect {
     }
 
 
-    // Arcane Buff lasts till end of level, no need to remove effect
+    // Arcane Buff lasts till end of engine.level, no need to remove effect
     @Override
     public void onRemove(Combatant target) {
 

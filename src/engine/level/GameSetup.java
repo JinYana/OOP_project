@@ -1,12 +1,12 @@
-package level;
+package engine.level;
 
 import combatant.*;
 import items.Item;
 import items.Potion;
 import items.PowerStone;
 import items.SmokeBomb;
-import strategy.BasicAttackStrategy;
-import strategy.EnemyActionStrategy;
+import engine.strategy.BasicAttackStrategy;
+import engine.strategy.EnemyActionStrategy;
 import ui.GameCLI;
 
 import java.util.ArrayList;
@@ -103,7 +103,7 @@ public class GameSetup {
                     yield new Level(enemyList, backupenemyList, false, "Hard");
 
 
-               default: //default level is medium
+               default: //default engine.level is medium
                     enemyList = new ArrayList<>();
                     backupenemyList = new ArrayList<>();
 

@@ -4,10 +4,10 @@ package engine;
 
 import action.Action;
 import combatant.Combatant;
-import level.Level;
-import strategy.TurnOrderStrategy;
-import observers.AchievementTracker;
-import observers.BattleEventListener;
+import engine.level.Level;
+import engine.strategy.TurnOrderStrategy;
+import engine.observers.AchievementTracker;
+import engine.observers.BattleEventListener;
 import ui.GameCLI;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package combatant;
 
 import action.Action;
-import strategy.EnemyActionStrategy;
+import engine.strategy.EnemyActionStrategy;
 
 public class Wolf extends Enemy{
     public Wolf(EnemyActionStrategy strategy) {

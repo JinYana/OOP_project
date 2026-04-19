@@ -1,4 +1,4 @@
-package strategy;
+package engine.strategy;
 
 import action.Action;
 import action.BasicAttack;
